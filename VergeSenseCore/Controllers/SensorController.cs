@@ -16,7 +16,7 @@ namespace VergeSenseCore.Controllers
         }
 
         [HttpGet("[action]")]
-        public IEnumerable<SensorData> SensorData(DateTime start, DateTime end)
+        public IEnumerable<Sensor> SensorData(DateTime start, DateTime end)
         {
             if (start == null) start = DateTime.MinValue;
             if (end == null) end = DateTime.Now;

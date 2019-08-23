@@ -6,6 +6,6 @@ namespace VergeSenseCore.Services
 {
     public interface ISensorService
     {
-        IEnumerable<SensorData> GetData(DateTime start, DateTime end);
+        IEnumerable<Sensor> GetData(DateTime start, DateTime end);
     }
 }
