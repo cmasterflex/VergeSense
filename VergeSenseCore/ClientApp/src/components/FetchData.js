@@ -1,53 +1,37 @@
 import React, { Component } from 'react';
 
 export class FetchData extends Component {
+
+    static renderSensorData(sensorData) {
+        return (
+            <div>
+                {sensorData.map(dataPoint => <p>{dataPoint.id}: {dataPoint.personCount} people at {dataPoint.timeStamp}</p>)}
+            </div>
+        );
+    }
+
   displayName = FetchData.name
 
   constructor(props) {
     super(props);
-    this.state = { forecasts: [], loading: true };
+    this.state = { sensorData: [], loading: true };
 
     fetch('api/Sensor/SensorData')
       .then(response => response.json())
       .then(data => {
-        this.setState({ forecasts: data, loading: false });
+        this.setState({ sensorData: data, loading: false });
       });
   }
 
-  static renderForecastsTable(forecasts) {
-    return (
-      <table className='table'>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
-          </tr>
-        </thead>
-        <tbody>
-          {forecasts.map(forecast =>
-            <tr key={forecast.dateFormatted}>
-              <td>{forecast.dateFormatted}</td>
-              <td>{forecast.temperatureC}</td>
-              <td>{forecast.temperatureF}</td>
-              <td>{forecast.summary}</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    );
-  }
 
   render() {
     let contents = this.state.loading
-      ? <p><em>Loading...</em></p>
-      : FetchData.renderForecastsTable(this.state.forecasts);
+        ? <p><em>Loading...</em></p>
+        : FetchData.renderSensorData(this.state.sensorData);
 
     return (
       <div>
-        <h1>Weather forecast</h1>
-        <p>This component demonstrates fetching data from the server.</p>
+        <h1>Raw Sensor Data</h1>
         {contents}
       </div>
     );
