@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VergeSenseCore", "VergeSenseCore\VergeSenseCore.csproj", "{1F984D52-03DC-4C89-A8D6-2EB1B380CBB5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1F984D52-03DC-4C89-A8D6-2EB1B380CBB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F984D52-03DC-4C89-A8D6-2EB1B380CBB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F984D52-03DC-4C89-A8D6-2EB1B380CBB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F984D52-03DC-4C89-A8D6-2EB1B380CBB5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1E3449E4-7FA4-46BC-AC27-6D3CC4A33A22}
+	EndGlobalSection
+EndGlobal
