@@ -5,6 +5,6 @@ namespace VergeSenseCore.Services
 {
     public interface ICsvService
     {
-        IEnumerable<SensorData> LoadFile(string filename);
+        IEnumerable<SensorData> LoadFile();
     }
 }

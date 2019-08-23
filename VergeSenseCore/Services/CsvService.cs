@@ -8,25 +8,21 @@ namespace VergeSenseCore.Services
 {
     public class CsvService : ICsvService
     {
-        public IEnumerable<SensorData> LoadFile(string filename)
+        public IEnumerable<SensorData> LoadFile()
         {
-            // TODO: remove for prod   
-            filename = "C:\\DevRoot\\data\\VS_Coding_Exercise_Data.csv";
+            var filename = "C:\\DevRoot\\data\\VS_Coding_Exercise_Data.csv";
 
             var ret = new List<SensorData>();
 
-            const int dataPointMaxSize = 50; //maximum size of a data point reading, in this case, max size of one line in the file
-            var AllLines = new string[dataPointMaxSize];
+            var AllLines = new List<string>();
             using (StreamReader sr = File.OpenText(filename))
             {
-                int x = 0;
                 while (!sr.EndOfStream)
                 {
-                    AllLines[x] = sr.ReadLine();
-                    x += 1;
+                    AllLines.Add(sr.ReadLine());
                 }
             }
-            Parallel.For(0, AllLines.Length, x =>
+            Parallel.For(0, AllLines.Count, x =>
             {
                 if (SensorData.TryParseSensorData(AllLines[x], out SensorData point))
                 {
