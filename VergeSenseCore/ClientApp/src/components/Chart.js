@@ -11,16 +11,19 @@ export class ChartComponent extends Component {
         super(props);
 
         this.state = {
-            sensorData: [],
+            sensors: [],
+            //sensors: [{
+            //    sensorData: []
+            //}],
             loading: false,
             start: null,
-            end: null,
+            end: null
         };
 
         fetch(API)
             .then(response => response.json())
             .then(data => {
-                this.setState({ sensorData: data, loading: false });
+                this.setState({ sensors: data, loading: false });
             });
 
     }
@@ -44,11 +47,23 @@ export class ChartComponent extends Component {
         this.handleDateChange();
     }
 
+    renderSensors() {
+        return (
+            this.state.sensors.map(sensor =>
+                    <LineSeries data={sensor.data.map(dataPoint => ({ x: new Date(dataPoint.timeStamp), y: dataPoint.personCount }))} />)
+        );
+    }
+
     render() {
+        let sensorPlot = this.state.loading
+            ? <p><em>Loading...</em></p>
+            : this.renderSensors(this.state.sensors);
+
+
         return (
             <div>
                 <div>
-                    {/*this.state.sensorData.map(sensor => <p>{sensor.dataPoint.id}: {dataPoint.personCount} people at {dataPoint.timeStamp}</p>)*/}
+                    {this.state.sensors.map(sensor => <p>{sensor.datapoint}</p>/*{sensor.dataPoint.id}: {dataPoint.personCount} people at {dataPoint.timeStamp}</p>)*/)}
                 </div>
                 <div id="start-date">
                     <Datetime
@@ -75,9 +90,7 @@ export class ChartComponent extends Component {
                         <HorizontalGridLines />
                         <XAxis />
                         <YAxis />
-                        {this.state.sensorData.map(s =>
-                            <LineSeries data={s.map(dataPoint => ({ x: new Date(dataPoint.timeStamp), y: dataPoint.personCount }))} />)
-                        }
+                        {sensorPlot}
                     </XYPlot>}
             </div>
         );
