@@ -3,7 +3,7 @@ import { XYPlot, XAxis, YAxis, HorizontalGridLines, VerticalGridLines, LineSerie
 import Datetime from 'react-datetime';
 
 const API = 'api/Sensor/SensorData';
-const colors = ["#79c7e3", "#12939a", "#1a3177"];
+const colors = ["#12939a", "#79c7e3", "#1a3177"];
 
 export class ChartComponent extends Component {
 
@@ -21,10 +21,17 @@ export class ChartComponent extends Component {
         this.loadData();
     }
 
+    buildUrl() {
+        let qs = this.state.start === null || this.state.start === "" ? "" : "start=" + this.state.start.toISOString();
+        let qe = this.state.end === null || this.state.end === "" ? "" : "end=" + this.state.end.toISOString();
+        if (qs !== "" && qe !== "") return API + "?" + qs + "&" + qe;
+        if (qs !== "") return API + "?" + qs;
+        if (qe !== "") return API + "?" + qe;
+        return API;
+    }
+
     loadData() {
-        let qs = this.state.start === null ? "" : this.state.start;
-        let qe = this.state.end === null ? "" : this.state.end;
-        let url = API;
+        let url = this.buildUrl(); 
         fetch(url)
             .then(response => response.json())
             .then(data => {
@@ -32,19 +39,20 @@ export class ChartComponent extends Component {
             });
     }
 
+    clear() {
+        this.setState({start: null, end:null }, this.loadData);
+    }
+
     handleDateChange() {
-        this.setState({ loading: true });
-        this.loadData();
+        this.setState({ loading: true }, this.loadData);
     }
 
     handleStartChange(startDate) {
-        this.setState({ start: startDate });
-        this.handleDateChange();
+        this.setState({ start: startDate }, this.handleDateChange);
     }
 
     handleEndChange(endDate) {
-        this.setState({ end: endDate });
-        this.handleDateChange();
+        this.setState({ end: endDate }, this.handleDateChange);
     }
 
     renderCombinedPlot() {
@@ -54,30 +62,34 @@ export class ChartComponent extends Component {
         );
     }
 
+    renderIndividualPlot(sensor, i) {
+        return (
+            <div key={sensor.id}>
+                <h3>{sensor.id}</h3>
+                <XYPlot
+                    xType="time"
+                    height={300}
+                    width={900}
+                    padding={1}
+                >
+                    <VerticalGridLines />
+                    <HorizontalGridLines />
+                    <XAxis />
+                    <YAxis />
+                    <LineSeries />
+                    <LineSeries
+                        color={colors[i]}
+                        data={sensor.data.map(dataPoint => ({ x: new Date(dataPoint.timeStamp), y: dataPoint.personCount }))}
+                    />
+                </XYPlot>
+            </div>
+            );
+    }
+
     renderIndividualPlots() {
         return (
             <div>
-                {this.state.sensors.map((sensor, i) => (
-                    <div key={sensor.id}>
-                        <h3>{sensor.id}</h3>
-                        <XYPlot
-                            xType="time"
-                            height={300}
-                            width={900}
-                            padding={1}
-                        >
-                            <VerticalGridLines />
-                            <HorizontalGridLines />
-                            <XAxis />
-                            <YAxis />
-                            <LineSeries />
-                            <LineSeries
-                                color={colors[i]}
-                                data={sensor.data.map(dataPoint => ({ x: new Date(dataPoint.timeStamp), y: dataPoint.personCount }))}
-                            />
-                        </XYPlot>
-                    </div>)
-                )}
+                {this.state.sensors.map((sensor, i) => sensor.data.length > 0 ? this.renderIndividualPlot(sensor, i) : "")}
             </div>
         );
     }
@@ -106,6 +118,7 @@ export class ChartComponent extends Component {
                         closeOnSelect
                     />
                 </div>
+                <button onClick={() => this.clear()}>Clear</button>
                 {this.state.loading
                     ? <p><em>Loading...</em></p>
                     : <div>

@@ -16,11 +16,11 @@ namespace VergeSenseCore.Controllers
         }
 
         [HttpGet("[action]")]
-        public IEnumerable<Sensor> SensorData(DateTime start, DateTime end)
+        public IEnumerable<Sensor> SensorData(string start, string end)
         {
-            if (start == null) start = DateTime.MinValue;
-            if (end == null) end = DateTime.Now;
-            var data = _sensorService.GetData(start, end);
+            var startDate = start == null ? DateTime.MinValue : DateTime.Parse(start) ;
+            var endDate = end == null ? DateTime.Now : DateTime.Parse(end);
+            var data = _sensorService.GetData(startDate, endDate);
             return data;
         }
     }

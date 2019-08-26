@@ -7,24 +7,31 @@ namespace VergeSenseCore.Services
 {
     public class SensorService : ISensorService
     {
-        private ICsvService _csvService;
+        private readonly ICsvService _csvService;
+        private SensorData[] _dataCache;
         public SensorService(ICsvService csvService)
         {
             _csvService = csvService;
         }
+
+        public SensorData[] DataCache => _dataCache ?? (_dataCache = _csvService.LoadFile().ToArray())
+;
+
         public IEnumerable<Sensor> GetData(DateTime start, DateTime end)
         {
             var ret = new List<Sensor>();
             //in a production application, I assume this would be replaced by a call to a database service
-            //which would make sorting and filtering more efficient, instead of having to load up 
-            //the entire dataset
-            var data = _csvService.LoadFile();
-            var sensors = data.GroupBy(point => point.Id);
+            //which would handle sorting, filtering, and cache
+            var sensors = DataCache.GroupBy(point => point.Id);
             foreach(var sensor in sensors)
             {
-                ret.Add(new Sensor(sensor.Key, sensor.Select(x => new SensorReading(x.TimeStamp, x.PersonCount)).OrderBy(x => x.TimeStamp).ToArray()));
+                ret.Add(new Sensor(
+                    sensor.Key, 
+                    sensor.Select(x => new SensorReading(x.TimeStamp, x.PersonCount))
+                    .OrderBy(x => x.TimeStamp)
+                    .Where(x => x.TimeStamp >= start && x.TimeStamp <= end)
+                    .ToArray()));
             }
-            //return data.Where(x => x.TimeStamp() > start && x.TimeStamp() < end);
             return ret;
         }
     }
