@@ -107,6 +107,7 @@ export class ChartComponent extends Component {
                 <div id="start-date">
                     <Datetime
                         onBlur={(startDate) => this.handleStartChange(startDate)}
+                        value={this.state.start}
                         inputProps={{ placeholder: 'select start date' }}
                         closeOnSelect
                     />
@@ -114,6 +115,7 @@ export class ChartComponent extends Component {
                 <div id="end-date">
                     <Datetime
                         onBlur={(endDate) => this.handleEndChange(endDate)}
+                        value={this.state.end}
                         inputProps={{ placeholder: 'select end date' }}
                         closeOnSelect
                     />
@@ -122,7 +124,7 @@ export class ChartComponent extends Component {
                 {this.state.loading
                     ? <p><em>Loading...</em></p>
                     : <div>
-                        <h3>Combined Chart ({this.state.sensors.length} sensors)</h3>
+                        <h3>Combined Chart ({this.state.sensors.length} sensor{this.state.sensors.length > 1 ? "s" : "" })</h3>
                         <XYPlot
                             xType="time"
                             height={300}

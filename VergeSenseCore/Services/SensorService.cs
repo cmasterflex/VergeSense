@@ -25,12 +25,10 @@ namespace VergeSenseCore.Services
             var sensors = DataCache.GroupBy(point => point.Id);
             foreach(var sensor in sensors)
             {
-                ret.Add(new Sensor(
-                    sensor.Key, 
-                    sensor.Select(x => new SensorReading(x.TimeStamp, x.PersonCount))
+                var data = sensor.Select(x => new SensorReading(x.TimeStamp, x.PersonCount))
                     .OrderBy(x => x.TimeStamp)
-                    .Where(x => x.TimeStamp >= start && x.TimeStamp <= end)
-                    .ToArray()));
+                    .Where(x => x.TimeStamp >= start && x.TimeStamp <= end);
+                if (data.Any()) ret.Add(new Sensor(sensor.Key, data.ToArray()));
             }
             return ret;
         }
