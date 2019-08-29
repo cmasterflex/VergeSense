@@ -9,7 +9,7 @@ namespace VergeSenseCore.Services
     {
         public IEnumerable<SensorData> LoadFile()
         {
-            var filename = "C:\\DevRoot\\data\\VS_Coding_Exercise_Data.csv";
+            var filename = "Data\\VS_Coding_Exercise_Data.csv";
 
             var ret = new List<SensorData>();
 
