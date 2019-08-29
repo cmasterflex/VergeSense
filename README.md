@@ -1,8 +1,8 @@
 # Overview
 For this exercise I decided to use .Net Core for my back-end, and React for my front-end. I chose .Net Core because I have never worked specifically with it before, but I am familiar with .Net Framework, and .Net Core is the future of .Net, so I wanted to learn it. I chose React for the front-end because 1) it was suggeted by the exercise, and 2) I wanted to learn it also, since I have never used React before.
 
-I created a basic API project in Visual Studio 2019 using the 'React' template. This template creates a basic React app in a folder called 'ClientApp' using a slightly modified version of the standard 'create-react-app' command. 
-In order to duplicate the functionality of the supplied codepen in my app, I ran the following commands in the 'ClientApp' folder:
+I created a basic API project in Visual Studio 2019 using the 'React' template. In adition to creating the scaffold for a .Net Core App, this template also creates a basic React app in a folder called 'ClientApp' using a slightly modified version of the standard 'create-react-app' command. 
+In order to duplicate the functionality of the supplied codepen in my 'ClientApp', I ran the following commands in the 'ClientApp' folder:
 ````
 > npm install react-datetime --save
 > npm install react-vis --save
