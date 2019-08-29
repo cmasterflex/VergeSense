@@ -5,13 +5,16 @@ namespace VergeSenseCore.Models
 {
     public class Sensor
     {
-        public Sensor(string Id, SensorReading[] data)
+        public Sensor(string Id, int Max, SensorReading[] data)
         {
             this.Id = Id;
+            this.Max = Max;
             this.Data = data;
+
         }
 
         public string Id { get; }
+        public int Max { get; }
         public SensorReading[] Data { get; }
     }
 }
