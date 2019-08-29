@@ -45,9 +45,9 @@ For this application I split the bulk of logic into two services; the CsvService
 
 ## CsvService
 The `CsvService` implements the `ICsvService` interface which has one method: `LoadFile()`.
-`LoadFile()` reads the contents of a file at a hardcoded file path (I hardcoded the path for this example, but normally this would be stored in a config file) line by line, and then adds each line to a `List<string>`.
-After all lines have been read, `LoadFile()` then runs parallel `for` loops to parse each line into a `SensorData` object.
-`LoadFile()` returns and `IEnumerable<SensorData>`.
+`LoadFile()` reads the contents of a file at a hardcoded file path (I hardcoded the path for this example, but normally this would be stored in a config file), and then adds each line to a `List<string>`.
+After all lines have been read, `LoadFile()` then runs parallel `for` loops to parse each line read from the file into a `SensorData` object.
+`LoadFile()` returns an `IEnumerable<SensorData>`.
 
 ### Sensor Data Object
 The `SensorData` object represents the parsed values of one line of the csv file, and it has 3 properties: `string Id`, `DateTime TimeStamp`, and `int PersonCount`. All of these properties are read-only, and can only be set via constructor, this is to prevent data being changed once a data point has been created.
@@ -67,7 +67,7 @@ As similar argument could be made for missing time stamps, they could potentiall
 I noticed that at one point Sensor 4 reported 99999999999999, which is obviously an error, I decided to put a cap of 100 people as a valid person count, as that seemed like more than enough to cover even a very large conference room. For this exercise I chose to exclude any data that went over that max person count, but similarly to missing data, one could also infer a reasonable count based on surrounding data points, if desired.
 
 ## SensorService
-The `SensorService` implements the `ISensorService` interface, and is injected with an `ICsvService` on creation. The `SensorService` has one method `GetData(DateTime start, DateTime end)`, which when called, loads all sensor data from the `CsvService`'s `LoadFile()` method, caches that data for future calls to the service (since the file is always the same), and then builds a return object which is then serialized in to JSON and returned by the `SensorController` API.
+The `SensorService` implements the `ISensorService` interface, and is injected with an `ICsvService` on creation. The `SensorService` has one method `GetData(DateTime start, DateTime end)`, which when called, loads all sensor data from the `CsvService`'s `LoadFile()` method, caches that data for future calls to the service (since the file is always the same), and then builds a return object which is then serialized into JSON and returned by the `SensorController` API.
 
 I decided to organize the JSON object like this:
 ````
@@ -110,4 +110,4 @@ I debated whether to filter the max person count by the date range, but ultimate
 # Part 3: User Interface
 ![userInterface](/UserInterface.jpg)
 
-For my own ease of understanding the data, I decided to separate each sensor out into its own chart, in addition to the combined chart. All four charts update when a start or and time is selected.  If a given sensor has no data for the selected timespan, then that sensor's chart will not be displayed.
+For my own ease of understanding the data, I decided to separate each sensor out into its own chart, in addition to the combined chart. All four charts update when a start or end time is selected.  If a given sensor has no data for the selected timespan, then that sensor's chart will not be displayed.
