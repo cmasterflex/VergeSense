@@ -14,6 +14,7 @@ I then added the required css files to my index.html:
 <link rel="stylesheet" href="https://unpkg.com/react-vis/dist/style.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/react-datetime/3.0.0/css/react-datetime.min.css" />
 ````
+### Run
 Opening VergeSenseCore.sln in Visual Studio 2019 and hitting 'run' should be enough to start and run the application.
 
 # Part 1: Database Diagram
