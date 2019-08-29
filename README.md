@@ -1,3 +1,21 @@
+# Overview
+For this exercise I decided to use .Net Core for my back-end, and React for my front-end. I chose .Net Core because I have never worked specifically with it before, but I am familiar with .Net Framework, and .Net Core is the future of .Net, so I wanted to learn it. I chose React for the front-end because 1) it was suggeted by the exercise, and 2) I wanted to learn it also, since I have never used React before.
+
+I created a basic API project in Visual Studio using the 'React' template. This template creates a basic React app in a folder called 'ClientApp' using a slightly modified version of the standard 'create-react-app' command. 
+In order to duplicate the functionality of the supplied codepen in my app, I ran the following commands in the 'ClientApp' folder:
+````
+> npm install react-datetime --save
+> npm install react-vis --save
+> npm install moment --save
+````
+I then added the required css files to my index.html:
+````
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://unpkg.com/react-vis/dist/style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/react-datetime/3.0.0/css/react-datetime.min.css" />
+````
+
+
 # Part 1: Database Diagram
 ![databaseDiagram](/DatabaseDiagram.jpg)
 ### Readings Table
@@ -88,4 +106,7 @@ I debated whether to filter the max person count by the date range, but ultimatl
 
 **Sensor 3:** 18
 
+# Part 3: User Interface
+![userInterface](/UserInterface.jpg)
 
+For my own ease of understanding the data, I decided to separate each sensor out into it's own chart, in addition to the combined chart. All four charts update when a start or and time is selected.  If a given sensor has no data for the selected timespan, then that sensor's chart will not be displayed.
